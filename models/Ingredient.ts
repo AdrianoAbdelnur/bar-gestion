@@ -3,21 +3,36 @@ import { Schema, model, models } from 'mongoose';
 const IngredientSchema = new Schema(
   {
     name: { 
-            type: String 
-        },
+      type: String,
+      required: true
+    },
     price: { 
-            type: Number 
-        },
-    category: [
-        { 
-            type: String 
-        }
-    ],
+      type: Number,
+      default: 0,
+    },
+    unit: {
+      type: String,
+      enum: ["Kg", "g", "l", "ml", "u", "pack", null, ""],
+      default: "",
+    },
+    parent: {
+      type: Schema.Types.ObjectId,
+      ref: 'Ingredient',
+      default: null,
+    },
+    order: {
+      type: Number,
+      default: 0
+    },
     isDeleted: { 
-        type: Boolean, default: false 
+      type: Boolean, 
+      default: false 
     },
   },
-  { versionKey: false }
+  {
+    timestamps: true,
+    versionKey: false,
+  }
 );
 
 const Ingredient = models.Ingredient || model('Ingredient', IngredientSchema);
